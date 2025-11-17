@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@400;600;700&display=swap');
+
+:root {
+  /* Light theme (default) */
+  --bg: #fffdfb;
+  --card: #ffffff;
+  --ink: #51436a;
+  --muted: #7e6aa8;
+  --accent: #ffb3d6;
+  --accent-2: #b3e1ff;
+  --accent-3: #c6ffbf;
+  --ring: #ffd6e8;
+}
+
+/* Dark theme */
+[data-theme='dark'] {
+  --bg: #1a1625;
+  --card: #251d33;
+  --ink: #e8e0f4;
+  --muted: #9f8fc7;
+  --accent: #ff8cc4;
+  --accent-2: #659ec9;
+  --accent-3: #a8ffb3;
+  --ring: #ff8cc4;
+}
+
+/* Main layout structure for the blog page */
+.blog-page {
+  min-height: 100dvh;
+  background:
+    radial-gradient(18px 18px at 12% 10%, rgba(255,179,214,0.35), transparent 45%),
+    radial-gradient(20px 20px at 82% 18%, rgba(179,225,255,0.35), transparent 45%),
+    radial-gradient(16px 16px at 22% 82%, rgba(198,255,191,0.35), transparent 45%),
+    var(--bg);
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+.main-content {
+  /* Allow the main area to expand wider on large screens while keeping comfortable padding */
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 2rem 2rem 4rem;
+  box-sizing: border-box;
+}
+
+/* Sprinkle confetti */
+.main-content::before {
+  content: '✧  ✿  ★  ❀  ✧  ♡  ✦';
+  position: sticky;
+  top: 0;
+  display: block;
+  text-align: center;
+  font-family: 'Fredoka', system-ui, sans-serif;
+  color: var(--muted);
+  opacity: 0.5;
+  margin-bottom: 0.75rem;
+}
+
+
+

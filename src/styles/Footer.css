@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap');
+
+.footer {
+  padding: 1.25rem;
+  text-align: center;
+  background: #fff8fd;
+  border-top: 2px dashed #ffd6e8;
+  font-family: 'Quicksand', system-ui, sans-serif;
+  color: #6b5a8e;
+}
+
+/* Style for the copyright message */
+.copyright {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  opacity: 0.8;
+}

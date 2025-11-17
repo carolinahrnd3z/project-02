@@ -1,0 +1,140 @@
+/* page wrapper */
+.individual-post-page {
+  max-width: 950px;
+  margin: 0 auto;
+  padding: 2rem 1rem 3.5rem;
+  background: transparent;
+}
+
+/* the article itself */
+.post-article {
+  background: #fff;
+  border: 1px solid #f0e1ef;
+  border-radius: 1rem;
+  padding: 1.5rem 1.6rem 2rem;
+  box-shadow: 0 10px 25px rgba(81, 67, 106, 0.03);
+}
+
+/* header/title area */
+.post-heading {
+  margin-bottom: 1rem;
+}
+
+.post-title-big {
+  font-size: clamp(1.6rem, 3.2vw, 2rem);
+  font-weight: 600;
+  color: #51436a;
+  margin-bottom: .4rem;
+}
+
+.post-meta-line {
+  font-size: .9rem;
+  color: #8a7aa9;
+}
+
+/* author box */
+.author-box {
+  background: #fff7fc;
+  border: 1px dashed #ffd6e8;
+  border-radius: .75rem;
+  padding: .6rem .75rem;
+  margin-bottom: 1rem;
+  font-size: .9rem;
+}
+
+/* main content */
+.post-body {
+  white-space: pre-wrap;
+  line-height: 1.6;
+  color: #3b3054;
+}
+
+/* comments section */
+.comments-section {
+  margin-top: 1.5rem;
+}
+
+.comments-title {
+  font-weight: 600;
+  margin-bottom: .75rem;
+  color: #51436a;
+}
+
+/* comment form */
+.comment-form {
+  background: #f9f5ff;
+  border: 1px solid #eedfff;
+  border-radius: .75rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.comment-form label {
+  font-size: .85rem;
+  display: block;
+  margin-bottom: .25rem;
+  color: #5f4a91;
+}
+
+.comment-form input,
+.comment-form textarea {
+  width: 100%;
+  border: 1px solid #d9c9ff;
+  border-radius: .5rem;
+  padding: .5rem .6rem;
+  font-size: .9rem;
+}
+
+.comment-form textarea {
+  min-height: 90px;
+  resize: vertical;
+}
+
+.comment-form button {
+  margin-top: .6rem;
+  background: #9d6ce3;
+  color: #fff;
+  border: none;
+  border-radius: .5rem;
+  padding: .45rem 1rem;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.comment-form button:disabled {
+  opacity: .6;
+  cursor: not-allowed;
+}
+
+/* per-comment card */
+.comment-card {
+  background: #ffffff;
+  border: 1px solid #f0e6ff;
+  border-radius: .75rem;
+  padding: .6rem .75rem .75rem;
+  margin-bottom: .75rem;
+}
+
+.comment-name {
+  font-weight: 600;
+  color: #5a4b81;
+}
+
+.comment-email {
+  font-size: .75rem;
+  color: #8a7aa9;
+  margin-bottom: .25rem;
+}
+
+.comment-text {
+  white-space: pre-wrap;
+  color: #3b3054;
+  font-size: .9rem;
+}
+
+/* error + loading */
+.inline-error {
+  color: #c53030;
+  margin-bottom: .5rem;
+  font-size: .9rem;
+}
