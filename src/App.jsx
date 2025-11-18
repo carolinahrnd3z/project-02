@@ -6,6 +6,7 @@ import ContactPage from './pages/ContactPage'
 import LoginPage from './pages/LoginPage'
 import { ThemeProvider } from './context/ThemeContext'
 import { AuthProvider, useAuth } from './context/AuthContext'
+import HomePage from './pages/HomePage'
 
 // this is a wrapper component for protected routes
 const PrivateRoute = ({ children }) => {
@@ -25,17 +26,11 @@ function App() {
         <Router>
           <Routes>
             {/* Public route */}
+            <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
 
             {/* Protected routes */}
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <BlogPostsPage />
-                </PrivateRoute>
-              }
-            />
+           
             <Route
               path="/posts"
               element={
