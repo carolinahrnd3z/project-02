@@ -29,24 +29,11 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/login" element={<LoginPage />} />
 
-            {/* Protected routes */}
-           
-            <Route
-              path="/posts"
-              element={
-                <PrivateRoute>
-                  <BlogPostsPage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/posts/:id"
-              element={
-                <PrivateRoute>
-                  <IndividualPostPage />
-                </PrivateRoute>
-              }
-            />
+            {/* Public blog routes (accessible without login) */}
+            <Route path="/posts" element={<BlogPostsPage />} />
+            <Route path="/posts/:id" element={<IndividualPostPage />} />
+
+            {/* Protected route(s) */}
             <Route
               path="/contact"
               element={

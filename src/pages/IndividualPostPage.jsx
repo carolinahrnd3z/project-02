@@ -1,9 +1,62 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import { useAuth } from '../context/AuthContext'
 import Header from '../layouts/Header'
 import Footer from '../layouts/Footer'
 import { posts as localPosts } from '../data/posts'
 import '../styles/BlogPage.css'
+
+// Inline helper component to render the comment form area and gate it by auth
+function CommentFormArea({ posting, formError, commentName, setCommentName, commentBody, setCommentBody, handleCommentSubmit }) {
+  const { isAuthenticated, user } = useAuth()
+
+  // when user logs in, auto-fill the name field
+  useEffect(() => {
+    if (isAuthenticated && user?.username) {
+      setCommentName(user.username)
+    }
+  }, [isAuthenticated, user, setCommentName])
+
+  if (!isAuthenticated) {
+    // anonymous users: prompt to log in instead of showing the form
+    return (
+      <div style={{ marginBottom: '1rem', maxWidth: '40rem' }}>
+        <p style={{ marginBottom: '.5rem' }}>
+          You must be logged in to post a comment. <Link to="/login">Log in</Link>
+        </p>
+      </div>
+    )
+  }
+
+  // authenticated user: hide name input and show username label
+  return (
+    <form onSubmit={handleCommentSubmit} style={{ marginBottom: '1rem' }}>
+      <div className="text-sm text-gray-700" style={{ marginBottom: '.5rem' }}>
+        Commenting as <strong>{user?.username}</strong>
+      </div>
+
+      <div style={{ marginBottom: '.5rem' }}>
+        <label style={{ display: 'block', fontSize: '.9rem', marginBottom: '.25rem' }} htmlFor="comment-body">Comment</label>
+        <textarea
+          id="comment-body"
+          value={commentBody}
+          onChange={(e) => setCommentBody(e.target.value)}
+          style={{ width: '100%', padding: '.5rem', minHeight: '80px' }}
+          placeholder="Write your comment here"
+          disabled={posting}
+        />
+      </div>
+
+      {formError && (
+        <div role="alert" style={{ color: 'crimson', marginBottom: '.5rem' }}>{formError}</div>
+      )}
+
+      <button type="submit" disabled={posting} style={{ padding: '.5rem 1rem' }}>
+        {posting ? 'Posting…' : 'Post comment'}
+      </button>
+    </form>
+  )
+}
 
 const normalize = (p) => ({
   id: p.id,
@@ -34,6 +87,7 @@ const IndividualPostPage = () => {
   const [commentBody, setCommentBody] = useState('')
   const [posting, setPosting] = useState(false)
   const [formError, setFormError] = useState(null)
+  const { isAuthenticated, user: authUser } = useAuth()
 
   useEffect(() => {
     const controller = new AbortController()
@@ -118,8 +172,8 @@ const IndividualPostPage = () => {
     e.preventDefault()
     setFormError(null)
 
-    // simple validation
-    if (!commentName.trim()) {
+    // simple validation: require name only for anonymous users
+    if (!isAuthenticated && !commentName.trim()) {
       setFormError('Please enter your name')
       return
     }
@@ -137,7 +191,7 @@ const IndividualPostPage = () => {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             postId: numericId,
-            name: commentName.trim(),
+            name: isAuthenticated ? (authUser?.username || commentName.trim()) : commentName.trim(),
             body: commentBody.trim(),
           }),
         }
@@ -154,7 +208,8 @@ const IndividualPostPage = () => {
         body: newComment.body,
       }
       setComments((prev) => [normalized, ...prev])
-      setCommentName('')
+  // clear name only for anonymous users; keep auth username populated
+  if (!isAuthenticated) setCommentName('')
       setCommentBody('')
     } catch (err) {
       setFormError(err?.message || 'Failed to post comment')
@@ -217,41 +272,16 @@ const IndividualPostPage = () => {
             <section className="comments" style={{ marginTop: '1.5rem' }}>
                 <h3 style={{ marginBottom: '.5rem' }}>Comments</h3>
 
-                {/* comment form */}
-                <form onSubmit={handleCommentSubmit} style={{ marginBottom: '1rem' }}>
-                  <div style={{ marginBottom: '.5rem' }}>
-                    <label style={{ display: 'block', fontSize: '.9rem', marginBottom: '.25rem' }} htmlFor="comment-name">Your name</label>
-                    <input
-                      id="comment-name"
-                      type="text"
-                      value={commentName}
-                      onChange={(e) => setCommentName(e.target.value)}
-                      style={{ width: '100%', padding: '.5rem' }}
-                      placeholder="Name"
-                      disabled={posting}
-                    />
-                  </div>
-
-                  <div style={{ marginBottom: '.5rem' }}>
-                    <label style={{ display: 'block', fontSize: '.9rem', marginBottom: '.25rem' }} htmlFor="comment-body">Comment</label>
-                    <textarea
-                      id="comment-body"
-                      value={commentBody}
-                      onChange={(e) => setCommentBody(e.target.value)}
-                      style={{ width: '100%', padding: '.5rem', minHeight: '80px' }}
-                      placeholder="Write your comment here"
-                      disabled={posting}
-                    />
-                  </div>
-
-                  {formError && (
-                    <div role="alert" style={{ color: 'crimson', marginBottom: '.5rem' }}>{formError}</div>
-                  )}
-
-                  <button type="submit" disabled={posting} style={{ padding: '.5rem 1rem' }}>
-                    {posting ? 'Posting…' : 'Post comment'}
-                  </button>
-                </form>
+                {/* comment form - only for authenticated users */}
+                <CommentFormArea
+                  posting={posting}
+                  formError={formError}
+                  commentName={commentName}
+                  setCommentName={setCommentName}
+                  commentBody={commentBody}
+                  setCommentBody={setCommentBody}
+                  handleCommentSubmit={handleCommentSubmit}
+                />
 
                 {commentsLoading && <p>Loading comments…</p>}
 
